@@ -172,7 +172,25 @@ module.exports = {
       type: ['pc'],
       frequencyOption: ['daily', 'never'],
       frequency: 'never'
-    },
+    }
+,{id:"2",src:{m:"https://wqs.jd.com/pet-dog/index.html"},title:'萌犬庄园',description:"萌犬庄园养狗",key:"petdog",mode:'iframe',type:['m'],checkin:true,frequencyOption:['30m','never'],frequency:'30m'}
+,{id:"8",src:{m:"https://bean.m.jd.com/plantBean/index.action"},title:'种豆得豆',description:"种豆得京豆",key:"plantbean",mode:'iframe',type:['m'],checkin:true,frequencyOption:['30m','never'],frequency:'30m'}
+,{id:"18",src:{m:"https://pro.m.jd.com/mall/active/2nTmRwG2r7d83rQNumvf5stQzB1h/index.html"},title:'京东礼品卡',description:"京东礼品卡",key:"jdlpk",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"19",src:{m:"https://workline.jd.com/consumer/baitiaohome/index.html"},title:'白条权益中心',description:"白条权益中心",key:"btqyzx",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"20",src:{m:"https://pro.m.jd.com/mall/active/3S28janPLYmtFxypu37AYAGgivfp/index.html"},title:'拍拍二手签到有礼',description:"拍拍二手签到有礼",key:"ppesqdyl",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+// ,{id:"21",src:{m:"https://m.jr.jd.com/spe/acs/hymSystem/index.html?contentParam=100000318&actCode=3507312A7C&actType=1"},title:'天天领福利1',description:"天天领福利1",key:"ttlfl1",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'never'}
+// ,{id:"22",src:{m:"https://m.jr.jd.com/spe/acs/hymSystem/index.html?contentParam=100001064&actCode=6C6C995B53&actType=1"},title:'天天领福利2',description:"天天领福利2",key:"ttlfl2",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'never'}
+// ,{id:"23",src:{m:"https://m.jr.jd.com/zc/drawSystem/hb/index.html?contentParam=100000980&act=1&actCode=D52B96ABDB&actType=1"},title:'现金红包免费抢',description:"现金红包免费抢",key:"xjhbmfq",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'never'}
+// ,{id:"24",src:{m:"https://m.jr.jd.com/zc/drawSystem/hb/index.html?contentParam=100000916&act=1&actCode=73362F6CE2&actType=1"},title:'京东财富送惊喜',description:"京东财富送惊喜",key:"jdcfsjx",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'never'}
+,{id:"25",src:{m:"https://m.jr.jd.com/activity/brief/get5Coin/index2.html"},title:'每天领钢镚',description:"每天领钢镚",key:"mtlgb",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"26",src:{m:"https://wqs.jd.com/promote/201712/mwelfare/m.html"},title:'京东用户每日福利',description:"京东用户每日福利",key:"jdyhmrfl",mode:'iframe',type:['m'],checkin:true,frequencyOption:['30m','never'],frequency:'30m'}
+,{id:"27",src:{m:"https://fbank.m.jd.com/"},title:'流量加油站',description:"流量加油站",key:"lljyz",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"28",src:{m:"https://m.jr.jd.com/activity/qianduoduo/index/"},title:'新年钱多多',description:"新年钱多多",key:"xnqdd",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"29",src:{m:"https://stock-sr.jd.com/h5/jd-flipDraw/html/index.html"},title:'翻牌中大奖',description:"翻牌中大奖",key:"fpzdj",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"30",src:{m:"https://m.jr.jd.com/vip/activity/newperback/index.html"},title:'京东支付单单返',description:"京东支付单单返",key:"jdzfddf",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+// ,{id:"31",src:{m:"https://m.jr.jd.com/integrate/signin/index.html"},title:'双签领奖励',description:"双签领奖励",key:"sqljl",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'never'}
+,{id:"32",src:{m:"https://m.jr.jd.com/mjractivity/rn/rn_bt_raise/index.html"},title:'白条额度',description:"白条额度",key:"bted",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"33",src:{m:"https://m.jr.jd.com/bzx/jkx/index.html"},title:'免费领健康保障金',description:"免费领健康保障金",key:"mfljkbzj",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
   ],
   // 根据登录状态选择任务模式
   findJobPlatform: function (job) {

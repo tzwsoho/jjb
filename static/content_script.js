@@ -1191,7 +1191,8 @@ function dealLoginPage() {
       }
       simulateClick($(".login-btn a"))
     })
-  };
+  }
+  return this;
 }
 // 签到领京豆（vip）
 function vipCheckin(setting) {
@@ -1219,6 +1220,7 @@ function vipCheckin(setting) {
       })
     }
   }
+  return this;
 }
 
 // 16: 白条签到（baitiao）
@@ -1255,8 +1257,665 @@ function baitiaoLottery(setting) {
       }
     })
   }
+  return this;
 }
 
+// 2: 萌犬庄园（petdog）
+function petDog(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "2"
+		})
+
+		setTimeout(() => {
+			var feedBtn = $('.wqpd_features_dogfoods');
+			var timeoutLbl = $(".wqpd_features_dogpot_timeout");
+			if (timeoutLbl.length <= 0 && feedBtn.length > 0) {
+				console.log('喂狗');
+				simulateClick($('.wqpd_features_dogfoods'), true);
+			}
+		}, 500);
+
+		setTimeout(() => {
+			if ('可领取' == $('.wqpd_features_foods_item_tips').text()) {
+				console.log('领每日狗粮');
+				simulateClick($('.wqpd_features_foods_item_num'), true);
+			}
+		}, 1000);
+
+		var taskBtn = $('.wqpd_features_tasks');
+		setTimeout(() => {
+			if (taskBtn.length > 0) {
+				console.log('弹出任务列表');
+				simulateClick(taskBtn, true);
+			}
+		}, 1500);
+
+		observeDOM(document.body, () => {
+			var levelUpBtn = $(".wqpd_alert_btn");
+			var levelTxt = $(".wqpd_alert_sp_title_level");
+			if (levelUpBtn.length > 0 && levelTxt.length > 0 && levelTxt.text()) {
+				console.log('恭喜升到%s！', levelTxt.text());
+				simulateClick(levelUpBtn, true);
+			}
+
+			var all_done = true;
+			var btns = $(".wqpd_rasks_lists_item_btn");
+			var closeBtn = $(".pet-popup.pep-popup_show .wqpd_updates_close");
+			btns.filter((i) => {
+				if ('明日再来' === btns.get(i).textContent) {
+					return this;
+				}
+
+				all_done = false;
+				switch (i) {
+					case 0: // 分享
+						if ('去完成' == $(".wqpd_rasks_lists_item_btn.type_blue[ptag$='1']").text()) {
+							setTimeout(() => {
+								$.ajax({
+									method: "GET",
+									type: "GET",
+									url: "https://wq.jd.com/petmanor/petmodule/DoTask?type=1&channel=1&_=" + Date.now() + "&g_login_type=0&callback=jsonpCBKM&g_tk=1118503140&g_ty=ls",
+									timeout: 5000,
+									success: function(data) {
+										console.log('已完成一次分享任务！');
+									},
+									error: function(xhr, type) {
+										console.log('完成分享任务发生错误：', type);
+									}
+								});
+							}, 2000);
+						} else if ('领狗粮' == $(".wqpd_rasks_lists_item_btn.type_orange[ptag$='4']").text()) {
+							setTimeout(() => {
+								console.log('已领取分享获得的狗粮！');
+								simulateClick($(".wqpd_rasks_lists_item_btn.type_orange[ptag$='4']"), true)
+							}, 2000);
+						}
+						break;
+
+					case 1: // 浏览商品页
+						if ('去完成' == $(".wqpd_rasks_lists_item_btn.type_blue[ptag$='2']").text()) {
+							setTimeout(() => {
+								$.ajax({
+									method: "GET",
+									type: "GET",
+									url: "https://wq.jd.com/petmanor/petmodule/DoTask?type=2&channel=1&_=" + Date.now() + "&g_login_type=0&callback=jsonpCBKM&g_tk=1118503140&g_ty=ls",
+									timeout: 5000,
+									success: function(data) {
+										console.log('已完成一次浏览商品页任务！');
+									},
+									error: function(xhr, type) {
+										console.log('完成浏览商品页任务发生错误：', type);
+									}
+								});
+							}, 2500);
+						} else if ('领狗粮' == $(".wqpd_rasks_lists_item_btn.type_orange[ptag$='5']").text()) {
+							setTimeout(() => {
+								console.log('已领取浏览商品页获得的狗粮！');
+								simulateClick($(".wqpd_rasks_lists_item_btn.type_orange[ptag$='5']"), true)
+							}, 2500);
+						}
+						break;
+
+					case 2: // 购买商品
+						if ('去完成' == $(".wqpd_rasks_lists_item_btn.type_blue[ptag$='3']").text()) {
+							setTimeout(() => {
+								$.ajax({
+									method: "GET",
+									type: "GET",
+									url: "https://wq.jd.com/petmanor/petmodule/DoTask?type=3&channel=1&_=" + Date.now() + "&g_login_type=0&callback=jsonpCBKM&g_tk=1118503140&g_ty=ls",
+									timeout: 5000,
+									success: function(data) {
+										console.log('已完成一次购买商品任务！');
+									},
+									error: function(xhr, type) {
+										console.log('完成购买商品任务发生错误：', type);
+									}
+								});
+							}, 3000);
+						} else if ('领狗粮' == $(".wqpd_rasks_lists_item_btn.type_orange[ptag$='6']").text()) {
+							setTimeout(() => {
+								console.log('已领取购买商品获得的狗粮！');
+								simulateClick($(".wqpd_rasks_lists_item_btn.type_orange[ptag$='6']"), true)
+							}, 3000);
+						}
+						break;
+
+					default:
+						return this;
+				}
+
+				setTimeout(() => {
+					if (closeBtn.length > 0) {
+						console.log('刷新任务列表');
+						simulateClick(closeBtn, true);
+						setTimeout(() => {
+							if (taskBtn.length > 0) {
+								simulateClick(taskBtn, true);
+							}
+						}, 500);
+					}
+				}, 3500);
+			});
+
+			if (all_done) {
+				setTimeout(() => {
+					if (closeBtn.length > 0) {
+						console.log('所有任务已完成，关闭任务列表');
+						simulateClick(closeBtn, true);
+					}
+				}, 3500);
+			}
+		});
+	}
+	return this;
+}
+
+// 8: 种豆得豆（plantbean）
+function plantBean(setting) {
+	if (setting != 'never') {
+		console.log('种豆得豆（plantbean）')
+		weui.toast('京价保运行中', 1000);
+
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "8"
+		})
+		setTimeout(() => {
+			// var nutrient = $("[style$='transform: scale(1);']");
+			var nutrient = $("[style$='align-items: center; justify-content: flex-end;'] img");
+			if (null === nutrient) {
+				console.log('没有找到养料领取图标！！！');
+			} else {
+				setTimeout(() => {
+					var foster = $("[style^='transform: scale(1);'] img");
+					if (null === foster) {
+						console.log('没有找到培养图标！！！');
+					} else {
+						simulateClick(foster, true)
+						console.log('已培养豆苗', foster);
+					}
+				}, 2000);
+
+				simulateClick(nutrient, true)
+				console.log('已领取养料', nutrient);
+			}
+		}, 500);
+	}
+	return this;
+}
+
+// 10：京东金融新人礼
+function dailyJDJRXRL(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "10"
+		});
+
+		setTimeout(() => {
+			$("[type='number']").val(13000000000);
+			setTimeout(() => {
+				simulateClick($(".draw-getPrize-btn"), true);
+				markCheckinStatus('jdjrxrl');
+			}, 1500);
+		}, 1500);
+	}
+	return this;
+}
+
+// 12：超市签到有礼
+function dailyCSQDYL(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "12"
+		});
+
+		setTimeout(() => {
+			simulateClick($(".signIn_btnTxt"), true);
+			markCheckinStatus('csqdyl');
+		}, 1500);
+	}
+	return this;
+}
+
+// 13：小羊毛抽好礼
+function dailyXYMCHL(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "13"
+		});
+
+		setTimeout(() => {
+			simulateClick($(".push-text"), true);
+			markCheckinStatus('xymchl');
+		}, 1500);
+	}
+	return this;
+}
+
+// 18：京东礼品卡
+function dailyJDLPK(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "18"
+		});
+
+		setTimeout(() => {
+			simulateClick($(".pointer_wrap img"), true);
+			markCheckinStatus('jdlpk');
+		}, 1500);
+	}
+	return this;
+}
+
+// 19：白条权益中心
+function dailyBTQYZX(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "19"
+		});
+
+		setTimeout(() => {
+			simulateClick($("[clstag='jr|keycount|BTQYZX|indexSign']"), true);
+			markCheckinStatus('btqyzx');
+		}, 1500);
+	}
+	return this;
+}
+
+// 20：拍拍二手签到有礼
+function dailyPPESQDYL(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "20"
+		});
+
+		setTimeout(() => {
+			simulateClick($(".signIn_btnTxt"), true);
+			markCheckinStatus('ppesqdyl');
+		}, 1500);
+	}
+	return this;
+}
+
+// 21：天天领福利1
+function dailyTTLFL1(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "21"
+		});
+
+		setTimeout(() => {
+			simulateClick($("[clstag='pageclick|keycount|hym_01|choujiang']"), false);
+			// markCheckinStatus('ttlfl1');
+		}, 1500);
+	}
+	return this;
+}
+
+// 22：天天领福利2
+function dailyTTLFL2(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "22"
+		});
+
+		setTimeout(() => {
+			simulateClick($("[clstag='pageclick|keycount|hym_01|choujiang']"), true);
+			// TODO 领取按钮 $(".btn[clstag='pageclick|keycount|Qing_undefined_undefined|undefined_undefined|null']")
+			// TODO 抽奖按钮分享前不可用 $(".btn.gray[clstag='pageclick|keycount|hym_01|choujiang']")
+			// TODO var bb = $(".btn"); bb.filter((i)=>{if ('立即领取' == bb.get(i).textContent) console.log(bb.get(i));});
+			// markCheckinStatus('ttlfl2');
+		}, 1500);
+	}
+	return this;
+}
+
+// 23：现金红包免费抢
+function dailyXJHBMFQ(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "23"
+		});
+
+		setTimeout(() => {
+			simulateClick($("[clstag='pageclick|keycount|zfqmb_2018|khb']"), true);
+			setTimeout(() => {
+				simulateClick($("[clstag='pageclick|keycount|zfqmb_2018|outljlq']"), true);
+				markCheckinStatus('xjhbmfq');
+			}, 1000);
+		}, 1000);
+	}
+	return this;
+}
+
+// 24：京东财富送惊喜
+function dailyJDCFSJX(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "24"
+		});
+
+		setTimeout(() => {
+			simulateClick($("[clstag='pageclick|keycount|llhb_2018mz|khb']"), true);
+			setTimeout(() => {
+				simulateClick($("[clstag='pageclick|keycount|llhb_2018mz1|outljlq']"), true);
+				markCheckinStatus('jdcfsjx');
+			}, 1000);
+		}, 1000);
+	}
+	return this;
+}
+
+// 25：每天领钢镚
+function dailyMTLGB(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "25"
+		});
+
+		setTimeout(() => {
+			simulateClick($(".absolute.tModel_2 .t_1B img"), true);
+			markCheckinStatus('mtlgb');
+		}, 1500);
+	}
+	return this;
+}
+
+// 26：京东用户每日福利
+function dailyJDYHMRFL(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "26"
+		});
+
+		setTimeout(() => {
+			var btnSign = $(".signDay_day_item.day_able .signDay_day_top");
+			if (btnSign.length > 0) {
+				console.log('签到');
+				simulateClick(btnSign, true);
+			}
+		}, 1500);
+		setTimeout(() => {
+			var lotteryBtn = $(".lottery_btn");
+			if (lotteryBtn.length > 0) {
+				console.log('抽奖');
+				simulateClick(lotteryBtn, true);
+			}
+		}, 2000);
+
+		observeDOM(document.body, () => {
+			var mainPage = 'https://wqs.jd.com/promote/201712/mwelfare/m.html';
+			if (window.location.href.indexOf(mainPage) < 0) {
+				console.log('跳转回到活动页面');
+				setTimeout(() => {
+					window.location.href = mainPage;
+				}, 2000);
+				return this;
+			}
+
+			var btnOK1 = $(".J_dia_btn");
+			if (btnOK1.length > 0 && '确定' == btnOK1.text()) {
+				simulateClick(btnOK1, true);
+			}
+
+			var btnOK2 = $(".dia[style='display: block;'] .dia_btm_one");
+			if (btnOK2.length > 0 && '我知道了' == btnOK2.text()) {
+				simulateClick(btnOK2, true);
+			}
+
+			var browsing = false;
+			var interval = 2500;
+			$(".welfareTask_btn").each((i,v) => {
+				var getBtn = $(v);
+				if (getBtn.length > 0 && '立即前往' == getBtn.text()) {
+					if (browsing) return;
+
+					setTimeout(() => {
+						browsing = true;
+						console.log('访问奖励页面');
+						simulateClick(getBtn, true);
+						setTimeout(() => {
+							console.log('退回领奖页面');
+							window.history.back(-1);
+						}, 1000);
+					}, 1000);
+				} else if (getBtn.length > 0 && '点击领取' == getBtn.text()) {
+					setTimeout(() => {
+						console.log('领取京豆奖励');
+						simulateClick(getBtn, true);
+					}, interval);
+
+					interval += 500;
+				}
+			});
+		});
+	}
+	return this;
+}
+
+// 27：流量加油站
+function dailyLLJYZ(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "27"
+		});
+
+		setTimeout(() => {
+			simulateClick($("[style$='background-size: cover; background-repeat: no-repeat; background-position: 50% center;']"), true);
+			markCheckinStatus('lljyz');
+		}, 1500);
+	}
+	return this;
+}
+
+// 28：新年钱多多
+function dailyXNQDD(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "28"
+		});
+
+		setTimeout(() => {
+			var getBtn = $("[clstag='pageclick|keycount|qianduoduo|index_open']");
+			if (getBtn.length > 0) {
+				simulateClick(getBtn, true);
+			}
+		}, 500);
+
+		setTimeout(() => {
+			var getBtn = $("[clstag='pageclick|keycount|qianduoduo|detail_2summary']");
+			if (getBtn.length > 0) {
+				simulateClick(getBtn, true);
+			}
+		}, 1000);
+
+		setTimeout(() => {
+			var getBtn = $("[clstag='pageclick|keycount|qianduoduo|summary_2withdraw'].summary");
+			if (getBtn.length > 0) {
+				simulateClick(getBtn, true);
+			}
+		}, 1500);
+
+		setTimeout(() => {
+			var getBtn = $("[clstag='pageclick|keycount|qianduoduo|withdraw'].tappable.pulse.btn-withdraw");
+			if (getBtn.length > 0) {
+				simulateClick(getBtn, true);
+			}
+			markCheckinStatus('xnqdd');
+		}, 2000);
+	}
+	return this;
+}
+
+// 29：翻牌中大奖
+function dailyFPZDJ(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "29"
+		});
+
+		setTimeout(() => {
+			simulateClick($(".drawCont-item"), true); // 翻哪张牌都一样~
+			markCheckinStatus('fpzdj');
+		}, 1500);
+	}
+	return this;
+}
+
+// 30：京东支付单单返
+function dailyJDZFDDF(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "30"
+		});
+
+		setTimeout(() => {
+			var beans = parseInt($(".beens-part .number").text());
+			if (beans <= 0) {
+				return this;
+			}
+
+			simulateClick($(".beens-part [clstag='pageclick|keycount|ZHQYZX|3']"), true);
+			markCheckinStatus('fpzdj');
+		}, 1500);
+	}
+	return this;
+}
+
+// 31：双签领奖励
+function dailySQLJL(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "31"
+		});
+
+		setTimeout(() => {
+			var signed = true;
+			var btns = $(".item-btn.active");
+			btns.filter((i) => {
+				signed &= (btns.get(i).text.indexOf('今日已签') >= 0);
+			});
+			if (!signed) {
+				return this;
+			}
+
+			var btnGetDbl = $(".item-btn[clstag^='jr|']");
+			if (btnGetDbl.length > 0 && btnGetDbl.text().indexOf('完成双签领取') >= 0) {
+				console.log('弹出双签奖励页');
+				simulateClick(btnGetDbl, true);
+			}
+		}, 1000);
+
+		// observeDOM(document.body, () => {
+			// var btnGet = $(".success-btn");
+			// if (btnGet.length > 0 && '立即领取' == btnGet.text()) {
+				// setTimeout(() => {
+					// console.log('领取双签奖励');
+					// simulateClick(btnGet, true);
+					// markCheckinStatus('sqljl');
+				// }, 1000);
+			// }
+		// });
+	}
+	return this;
+}
+
+// 32：白条额度
+function dailyBTED(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "32"
+		});
+
+		setTimeout(() => {
+			var raiseImg = $("[clstag='jr|keycount|bn_bt_raise|rise_limit'] img");
+			if (raiseImg.length <= 0) {
+				console.log('暂无可提升的额度');
+				markCheckinStatus('bted');
+			}
+
+			var raiseBtn = $("[clstag='jr|keycount|bn_bt_raise|rise_limit']");
+			if (raiseBtn.length > 0) {
+				console.log('弹出提升额度窗口');
+				simulateClick(raiseBtn, true);
+			}
+		}, 1500);
+
+		observeDOM(document.body, () => {
+			setTimeout(() => {
+				var doRaiseBtn = $(".react-view.btn-box-shadow");
+				if (doRaiseBtn.length > 0 && '提升额度' == doRaiseBtn.text()) {
+					console.log('提升额度');
+					simulateClick(doRaiseBtn, true);
+				}
+			}, 1500);
+
+			markCheckinStatus('bted');
+		});
+	}
+	return this;
+}
+
+// 33：免费领健康保障金
+function dailyMFLJKBZJ(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "33"
+		});
+
+		setTimeout(() => {
+			var getBtn = $(".headBtnFont");
+			if (getBtn.length > 0 && '立即领取' == getBtn.text()) {
+				simulateClick(getBtn, true);
+			}
+
+			markCheckinStatus('mfljkbzj');
+		}, 1500);
+	}
+	return this;
+}
 
 // 17: 小羊毛
 function dailyJDBeans(setting) {
@@ -1520,13 +2179,138 @@ function CheckDom() {
     getSetting('job16_frequency', baitiaoLottery)
   };
 
+  // 2 萌犬庄园
+  if (window.location.host == 'wqs.jd.com' && window.location.pathname == '/pet-dog/index.html') {
+    getSetting('job2_frequency', petDog)
+  }
+
+  // 8 种豆得豆
+  if (window.location.host == 'bean.m.jd.com' && window.location.pathname == '/plantBean/index.action') {
+    getSetting('job8_frequency', plantBean)
+  }
+
+  // 10 京东金融新人礼
+  // if (window.location.href == 'https://m.jr.jd.com/zc/drawSystem/sohu/index.html?contentParam=100001342') {
+	// getSetting('job10_frequency', dailyJDJRXRL)
+  // }
+
+  // 12 超市签到有礼
+  if (window.location.host == 'pro.m.jd.com' && window.location.pathname == '/mall/active/aNCM6yrzD6qp1Vvh5YTzeJtk7cM/index.html') {
+	getSetting('job12_frequency', dailyCSQDYL)
+  }
+
+  // 13 小羊毛抽好礼
+  if (window.location.host == 'wqs.jd.com' && window.location.pathname == '/wxsq_project/xym/ticketBonus/xym_ticketBonus.html') {
+	getSetting('job13_frequency', dailyXYMCHL)
+  }
+
+  // 18 京东礼品卡
+  if (window.location.host == 'pro.m.jd.com' && window.location.pathname == '/mall/active/2nTmRwG2r7d83rQNumvf5stQzB1h/index.html') {
+	getSetting('job18_frequency', dailyJDLPK)
+  }
+
+  // 19 白条权益中心
+  if (window.location.host == 'workline.jd.com' && window.location.pathname == '/consumer/baitiaohome/index.html') {
+	getSetting('job19_frequency', dailyBTQYZX)
+  }
+
+  // 20 拍拍二手签到有礼
+  if (window.location.host == 'pro.m.jd.com' && window.location.pathname == '/mall/active/3S28janPLYmtFxypu37AYAGgivfp/index.html') {
+	getSetting('job20_frequency', dailyPPESQDYL)
+  }
+
+  // 21 天天领福利1
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/spe/acs/hymSystem/index.html' &&
+	  window.location.search == '?contentParam=100000318&actCode=3507312A7C&actType=1') {
+	getSetting('job21_frequency', dailyTTLFL1)
+  }
+
+  // 22 天天领福利2
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/spe/acs/hymSystem/index.html' &&
+	  window.location.search == '?contentParam=100001064&actCode=6C6C995B53&actType=1') {
+	getSetting('job22_frequency', dailyTTLFL2)
+  }
+
+  // 23 现金红包免费抢
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/zc/drawSystem/hb/index.html' &&
+	  window.location.search == '?contentParam=100000980&act=1&actCode=D52B96ABDB&actType=1') {
+	getSetting('job23_frequency', dailyXJHBMFQ)
+  }
+
+  // 24 京东财富送惊喜
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/zc/drawSystem/hb/index.html' &&
+	  window.location.search == '?contentParam=100000916&act=1&actCode=73362F6CE2&actType=1') {
+	getSetting('job24_frequency', dailyJDCFSJX)
+  }
+
+  // 25 每天领钢镚
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/activity/brief/get5Coin/index2.html') {
+	getSetting('job25_frequency', dailyMTLGB)
+  }
+
+  // 26 京东用户每日福利
+  if (window.location.host == 'wqs.jd.com' &&
+	  window.location.pathname == '/promote/201712/mwelfare/m.html') {
+	getSetting('job26_frequency', dailyJDYHMRFL)
+  }
+
+  // 27 流量加油站
+  if (window.location.host == 'fbank.m.jd.com' &&
+	  window.location.pathname == '/') {
+	getSetting('job27_frequency', dailyLLJYZ)
+  }
+
+  // 28 新年钱多多
+  if (window.location.host == 'm.jr.jd.com' &&
+	  (window.location.pathname.indexOf('/activity/qianduoduo/index') >= 0 ||
+	   window.location.pathname.indexOf('/activity/qianduoduo/detail') >= 0 ||
+	   window.location.pathname.indexOf('/activity/qianduoduo/summary') >= 0 ||
+	   window.location.pathname.indexOf('/activity/qianduoduo/withdraw') >= 0)) {
+	getSetting('job28_frequency', dailyXNQDD)
+  }
+
+  // 29 翻牌中大奖
+  if (window.location.host == 'stock-sr.jd.com' &&
+	  window.location.pathname == '/h5/jd-flipDraw/html/index.html') {
+	getSetting('job29_frequency', dailyFPZDJ)
+  }
+
+  // 30 京东支付单单返
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/vip/activity/newperback/index.html') {
+	getSetting('job30_frequency', dailyJDZFDDF)
+  }
+
+  // 31 双签领奖励
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/integrate/signin/index.html') {
+	getSetting('job31_frequency', dailySQLJL)
+  }
+
+  // 32 白条额度
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/mjractivity/rn/rn_bt_raise/index.html') {
+	getSetting('job32_frequency', dailyBTED)
+  }
+
+  // 33 免费领健康保障金
+  if (window.location.host == 'm.jr.jd.com' &&
+	  window.location.pathname == '/bzx/jkx/index.html') {
+	getSetting('job33_frequency', dailyMFLJKBZJ)
+  }
+
   // 17 小羊毛
   if (document.title == "小羊毛领京豆红包" && window.location.host == 'wqs.jd.com') {
-    getSetting('job16_frequency', dailyJDBeans)
+    getSetting('job17_frequency', dailyJDBeans)
   }
 
   // 京豆签到 (11:京豆签到)
-  if (window.location.host == 'bean.m.jd.com') {
+  if (window.location.host == 'bean.m.jd.com' && window.location.pathname == '/') {
     getSetting('job11_frequency', beanCheckin)
   };
 
