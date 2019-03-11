@@ -3,12 +3,16 @@ import {getLoginState} from './account'
 module.exports = {
   priceProUrl: "https://msitepp-fm.jd.com/rest/priceprophone/priceProPhoneMenu",
   frequencyOptionText: {
+    '30m': "每半小时",
+    '1h': "每小时",
     '2h': "每2小时",
     '5h': "每5小时",
     'daily': "每天",
     'never': "从不"
   },
   mapFrequency: {
+	'30m': 30,
+	'1h': 60,
     '2h': 2 * 60,
     '5h': 5 * 60,
     'daily': 24 * 60,
