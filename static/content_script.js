@@ -1917,6 +1917,45 @@ function dailyMFLJKBZJ(setting) {
 	return this;
 }
 
+// 34：京豆大转盘
+function dailyJDDZP(setting) {
+	if (setting != 'never') {
+		weui.toast('京价保运行中', 1000);
+		chrome.runtime.sendMessage({
+			text: "run_status",
+			jobId: "34"
+		});
+
+		var times = $("[style^='display: inline; margin: 0px; padding: 0px;'][style*='color: rgb(255, 224, 72);']");
+		if (!times || !times.textContent || parseInt(times.textContent) <= 0) {
+			markCheckinStatus('jddzp');
+			return this;
+		}
+
+		setTimeout(() => {
+			var goBtn = $("[style^='justify-content: center; align-items: center;'] [style^='background-color: transparent;'] img");
+			if (goBtn) {
+				simulateClick(goBtn, true);
+			}
+		}, 1500);
+
+		observeDOM(document.body, () => {
+			setTimeout(() => {
+				if (!times || !times.textContent || parseInt(times.textContent) <= 0) {
+					markCheckinStatus('jddzp');
+					return this;
+				}
+
+				var goBtn = $("[style^='justify-content: center; align-items: center;'] [style^='background-color: transparent;'] img");
+				if (goBtn) {
+					simulateClick(goBtn, true);
+				}
+			}, 1000);
+		});
+	}
+	return this;
+}
+
 // 17: 小羊毛
 function dailyJDBeans(setting) {
   if (setting != 'never') {
@@ -2302,6 +2341,13 @@ function CheckDom() {
   if (window.location.host == 'm.jr.jd.com' &&
 	  window.location.pathname == '/bzx/jkx/index.html') {
 	getSetting('job33_frequency', dailyMFLJKBZJ)
+  }
+
+  // 34 京豆大转盘
+  if (window.location.host == 'turntable.m.jd.com' &&
+	  window.location.pathname == '/' &&
+	  window.location.search == '?actId=jgpqtzjhvaoym') { // search 参数很重要！！！
+	getSetting('job34_frequency', dailyJDDZP)
   }
 
   // 17 小羊毛

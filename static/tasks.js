@@ -195,6 +195,7 @@ module.exports = {
 // ,{id:"31",src:{m:"https://m.jr.jd.com/integrate/signin/index.html"},title:'双签领奖励',description:"双签领奖励",key:"sqljl",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'never'}
 ,{id:"32",src:{m:"https://m.jr.jd.com/mjractivity/rn/rn_bt_raise/index.html"},title:'白条额度',description:"白条额度",key:"bted",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
 ,{id:"33",src:{m:"https://m.jr.jd.com/bzx/jkx/index.html"},title:'免费领健康保障金',description:"免费领健康保障金",key:"mfljkbzj",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
+,{id:"34",src:{m:"https://turntable.m.jd.com/?actId=jgpqtzjhvaoym"},title:'京豆大转盘',description:"京豆大转盘",key:"jddzp",mode:'iframe',type:['m'],checkin:true,frequencyOption:['daily','never'],frequency:'daily'}
   ],
   // 根据登录状态选择任务模式
   findJobPlatform: function (job) {
