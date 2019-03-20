@@ -137,6 +137,20 @@ module.exports = {
       frequencyOption: ['daily', 'never'],
       frequency: 'daily'
     },
+    // {
+    //   id: '12',
+    //   src: {
+    //     m: 'https://m.jr.jd.com/integrate/signin/index.html',
+    //   },
+    //   title: '领取双签奖励',
+    //   description: "完成京豆和京东金融签到有一个双签奖励",
+    //   key: "double_check",
+    //   mode: 'iframe',
+    //   type: ['m'],
+    //   checkin: true,
+    //   frequencyOption: ['daily', 'never'],
+    //   frequency: 'daily'
+    // },
     {
       id: '16',
       src: {
