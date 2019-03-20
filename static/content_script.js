@@ -1927,27 +1927,29 @@ function dailyJDDZP(setting) {
 		});
 
 		var times = $("[style^='display: inline; margin: 0px; padding: 0px;'][style*='color: rgb(255, 224, 72);']");
-		if (!times || !times.textContent || parseInt(times.textContent) <= 0) {
+		console.log(times.text());
+		if (times.length <= 0 || parseInt(times.text()) <= 0) {
 			markCheckinStatus('jddzp');
 			return this;
 		}
 
+		var goBtn = $("[style^='justify-content: center; align-items: center;'] [style^='background-color: transparent;'] img");
 		setTimeout(() => {
-			var goBtn = $("[style^='justify-content: center; align-items: center;'] [style^='background-color: transparent;'] img");
-			if (goBtn) {
+			if (goBtn.length > 0) {
+				console.log('开始转动');
 				simulateClick(goBtn, true);
 			}
 		}, 1500);
 
 		observeDOM(document.body, () => {
 			setTimeout(() => {
-				if (!times || !times.textContent || parseInt(times.textContent) <= 0) {
+				if (times.length <= 0 || parseInt(times.text()) <= 0) {
 					markCheckinStatus('jddzp');
 					return this;
 				}
 
-				var goBtn = $("[style^='justify-content: center; align-items: center;'] [style^='background-color: transparent;'] img");
-				if (goBtn) {
+				if (goBtn.length > 0) {
+					console.log('继续转动');
 					simulateClick(goBtn, true);
 				}
 			}, 1000);
