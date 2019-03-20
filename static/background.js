@@ -181,17 +181,17 @@ function findJobs() {
       return console.log(job.title, '由于账号未登录已暂停运行')
     }
     switch(job.frequency){
-	  case '30m':
+      case '30m':
         // 如果从没运行过，或者上次运行已经过去超过2小时，那么需要运行
-	    if (!job.last_run_at || (DateTime.local() > DateTime.fromMillis(job.last_run_at).plus({ minutes: 30 }))) {
-	      jobStack.push(job.id);
-		}
-		break;
-	  case '1h':
-	    if (!job.last_run_at || (DateTime.local() > DateTime.fromMillis(job.last_run_at).plus({ hours: 1 }))) {
-	      jobStack.push(job.id);
-		}
-		break;
+        if (!job.last_run_at || (DateTime.local() > DateTime.fromMillis(job.last_run_at).plus({ minutes: 30 }))) {
+          jobStack.push(job.id);
+        }
+        break;
+      case '1h':
+        if (!job.last_run_at || (DateTime.local() > DateTime.fromMillis(job.last_run_at).plus({ hours: 1 }))) {
+          jobStack.push(job.id);
+        }
+        break;
       case '2h':
         // 如果从没运行过，或者上次运行已经过去超过2小时，那么需要运行
         if (!job.last_run_at || (DateTime.local() > DateTime.fromMillis(job.last_run_at).plus({ hours: 2 }))) {
